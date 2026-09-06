@@ -1,0 +1,24 @@
+{
+  "name": "proyecto_final",
+  "version": "1.0.0",
+  "description": "Pruebas automatizadas E2E y APIs",
+  "main": "index.js",
+  "scripts": {
+    "test:e2e": "npx playwright test",
+    "test:e2e:report": "npx playwright show-report",
+    "test:api": "jest --config api/jest.config.js",
+    "test:api:watch": "jest --config api/jest.config.js --watch",
+    "test:api:coverage": "jest --config api/jest.config.js --coverage",
+    "test:all": "npm run test:api && npm run test:e2e"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "dotenv": "^17.4.2",
+    "jest": "^30.5.1",
+    "jest-html-reporter": "^4.4.0",
+    "jest-html-reporters": "^3.1.7",
+    "supertest": "^7.2.2"
+  }
+}
