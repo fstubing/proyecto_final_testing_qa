@@ -4,7 +4,7 @@
   "description": "Pruebas automatizadas E2E y APIs",
   "main": "index.js",
   "scripts": {
-    "test:e2e": "npx playwright test",
+    "test:e2e": "npx playwright test --config e2e/playwright.config.js",
     "test:e2e:report": "npx playwright show-report",
     "test:api": "jest --config api/jest.config.js",
     "test:api:watch": "jest --config api/jest.config.js --watch",
