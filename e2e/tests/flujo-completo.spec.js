@@ -4,6 +4,7 @@ const { ClientesPage } = require("../pages/ClientesPage");
 const { ArticulosPage } = require("../pages/ArticulosPage");
 const { FacturasPage } = require("../pages/FacturasPage");
 const { CobrosPage } = require("../pages/CobrosPage");
+const { clienteNuevo } = require("../fixtures/clientes.data");
 
 test.describe("Flujo Completo E2E", () => {
   test("Debe completar el ciclo: Cliente > Articulo > Factura > Cobro", async ({
@@ -21,13 +22,9 @@ test.describe("Flujo Completo E2E", () => {
     await login.assertLoginSuccess();
 
     // 2. Insercion de Cliente
-    // await clientes.navigate();
-    // await clientes.crearCliente(
-    //   "Cliente E2E",
-    //   "cliente-e2e@test.com",
-    //   "555-0199",
-    // );
-    // await clientes.assertClienteCreado("Cliente E2E");
+    await clientes.navigate();
+    await clientes.crearCliente(clienteNuevo);
+    await clientes.assertClienteCreado(clienteNuevo.name);
 
     // // 3. Gestion y registro de Articulo
     // await articulos.navigate();

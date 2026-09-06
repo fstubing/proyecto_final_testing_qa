@@ -20,6 +20,16 @@ class BasePage {
     await locator.fill(value);
   }
 
+  async selectOption(locator, optionValue) {
+    await locator.waitFor({ state: "visible" });
+    await locator.selectOption(optionValue);
+  }
+
+  async checkCheckbox(locator) {
+    await locator.waitFor({ state: "visible" });
+    await locator.check();
+  }
+
   async assertTextContains(locator, text) {
     await expect(locator).toContainText(text);
   }
