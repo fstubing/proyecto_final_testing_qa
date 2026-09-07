@@ -4,32 +4,54 @@ const { BasePage } = require("./BasePage");
 class ArticulosPage extends BasePage {
   constructor(page) {
     super(page);
-    this.btnNuevo = page.locator("button#btn-nuevo-articulo");
-    this.inputCodigo = page.locator("input#codigo");
-    this.inputDescripcion = page.locator("input#descripcion");
-    this.inputPrecio = page.locator("input#precio");
-    this.inputStock = page.locator("input#stock");
-    this.btnGuardar = page.locator("button#btn-guardar");
-    this.msgSuccess = page.locator(".toast-success");
+    this.btnNuevo = page.getByRole("button", { name: "Crear Artículo" });
+    this.inputCodigo = page.getByRole("textbox", { name: "Código (SKU) *" });
+    this.inputNombre = page.getByRole("textbox", {
+      name: "Nombre / Descripción Breve *",
+    });
+    this.inputDescripcion = page.getByRole("textbox", {
+      name: "Descripción Larga",
+    });
+    this.selectLinea = page.locator("#line");
+    this.selectCategoria = page.locator("#category");
+    this.inputPrecioVenta = page.getByRole("textbox", {
+      name: "Precio de Venta",
+    });
+    this.inputStock = page.getByRole("textbox", { name: "Stock Actual" });
+    this.checkIva = page.locator("#tax-1");
+    this.btnGuardar = page.getByRole("button", { name: "Guardar Cambios" });
+    this.msgSuccess = page.getByText("Artículo guardado con éxito!", {
+      exact: true,
+    });
+    this.buscadorArticulos = page.getByRole("textbox", { name: "Buscar" });
+    this.btnBuscar = page.getByRole("button", { name: "Buscar", exact: true });
+    this.msgNoResults = page.getByRole("heading", { name: "No hay artículos" });
   }
 
   async navigate() {
     await this.navigateTo("/articulos");
   }
 
-  async crearArticulo(codigo, desc, precio, stock) {
+  async crearArticulo(articuloData) {
     await this.clickElement(this.btnNuevo);
-    await this.fillField(this.inputCodigo, codigo);
-    await this.fillField(this.inputDescripcion, desc);
-    await this.fillField(this.inputPrecio, precio);
-    await this.fillField(this.inputStock, stock);
+    await this.fillField(this.inputCodigo, articuloData.sku);
+    await this.fillField(this.inputNombre, articuloData.nombre);
+    await this.fillField(this.inputDescripcion, articuloData.descripcion);
+    await this.selectOption(this.selectLinea, articuloData.linea);
+    await this.selectOption(this.selectCategoria, articuloData.categoria);
+    await this.fillField(this.inputPrecioVenta, articuloData.precioVenta);
+    await this.fillField(this.inputStock, articuloData.stock);
+    await this.checkCheckbox(this.checkIva);
     await this.clickElement(this.btnGuardar);
   }
 
-  async assertArticuloCreado(codigo) {
-    await expect(this.msgSuccess).toContainText("creado");
+  async assertArticuloCreado(nombre) {
+    await expect(this.msgSuccess).toBeVisible();
+    await this.buscadorArticulos.fill(nombre);
+    await this.clickElement(this.btnBuscar);
+    await expect(this.msgNoResults).not.toBeVisible();
     await expect(
-      this.page.locator("table tbody tr").filter({ hasText: codigo }),
+      this.page.locator("table tbody tr").filter({ hasText: nombre }),
     ).toBeVisible();
   }
 }

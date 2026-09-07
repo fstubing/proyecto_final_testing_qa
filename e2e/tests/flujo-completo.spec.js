@@ -5,6 +5,8 @@ const { ArticulosPage } = require("../pages/ArticulosPage");
 const { FacturasPage } = require("../pages/FacturasPage");
 const { CobrosPage } = require("../pages/CobrosPage");
 const { clienteNuevo } = require("../fixtures/clientes.data");
+const { articuloNuevo } = require("../fixtures/articulos.data");
+const { facturaNueva } = require("../fixtures/facturas.data");
 
 test.describe("Flujo Completo E2E", () => {
   test("Debe completar el ciclo: Cliente > Articulo > Factura > Cobro", async ({
@@ -17,29 +19,35 @@ test.describe("Flujo Completo E2E", () => {
     const cobros = new CobrosPage(page);
 
     // 1. Login como Admin
-    await login.navigate();
-    await login.loginAsAdmin();
-    await login.assertLoginSuccess();
+    await test.step("1.- Login como Admin", async () => {
+      await login.navigate();
+      await login.loginAsAdmin();
+      await login.assertLoginSuccess();
+    });
 
     // 2. Insercion de Cliente
-    await clientes.navigate();
-    await clientes.crearCliente(clienteNuevo);
-    await clientes.assertClienteCreado(clienteNuevo.name);
+    await test.step("2.- Insercion de Cliente", async () => {
+      await clientes.navigate();
+      await clientes.crearCliente(clienteNuevo);
+      await clientes.assertClienteCreado(clienteNuevo.name);
+    });
 
-    // // 3. Gestion y registro de Articulo
-    // await articulos.navigate();
-    // await articulos.crearArticulo(
-    //   "ART-E2E-001",
-    //   "Articulo de Prueba E2E",
-    //   "15000",
-    //   "100",
-    // );
-    // await articulos.assertArticuloCreado("ART-E2E-001");
+    // 3. Gestion y registro de Articulo
+    await test.step("3.- Gestion y registro de Articulo", async () => {
+      await articulos.navigate();
+      await articulos.crearArticulo(articuloNuevo);
+      await articulos.assertArticuloCreado(articuloNuevo.nombre);
+    });
 
-    // // 4. Generacion de Factura
-    // await facturas.navigate();
-    // await facturas.generarFactura("Cliente E2E", "Articulo de Prueba E2E", "2");
-    // await facturas.assertFacturaGenerada();
+    // 4. Generacion de Factura
+    await test.step("4.- Generacion de Factura", async () => {
+      await facturas.navigate();
+      await facturas.generarFactura(facturaNueva);
+      await facturas.assertFacturaGenerada(
+        facturaNueva.clienteNombre,
+        facturaNueva.totalEsperado,
+      );
+    });
 
     // // 5. Procesamiento de Cobro
     // await cobros.navigate();
