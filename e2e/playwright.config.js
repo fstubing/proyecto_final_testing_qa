@@ -9,6 +9,7 @@ module.exports = defineConfig({
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
     video: "on",
+    timezoneId: "America/Santiago",
   },
   projects: [
     {

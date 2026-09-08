@@ -7,6 +7,7 @@ const { CobrosPage } = require("../pages/CobrosPage");
 const { clienteNuevo } = require("../fixtures/clientes.data");
 const { articuloNuevo } = require("../fixtures/articulos.data");
 const { facturaNueva } = require("../fixtures/facturas.data");
+const { cobroNuevo } = require("../fixtures/cobro.data");
 
 test.describe("Flujo Completo E2E", () => {
   test("Debe completar el ciclo: Cliente > Articulo > Factura > Cobro", async ({
@@ -49,9 +50,14 @@ test.describe("Flujo Completo E2E", () => {
       );
     });
 
-    // // 5. Procesamiento de Cobro
-    // await cobros.navigate();
-    // await cobros.procesarCobro("Factura #", "30000", "Transferencia");
-    // await cobros.assertCobroRegistrado();
+    // 5. Procesamiento de Cobro
+    await test.step("5.- Procesamiento de Cobro", async () => {
+      await cobros.navigate();
+      await cobros.procesarCobro(cobroNuevo);
+      await cobros.assertCobroRegistrado(
+        cobroNuevo.clienteNombre,
+        cobroNuevo.totalEsperado,
+      );
+    });
   });
 });

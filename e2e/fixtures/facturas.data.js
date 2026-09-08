@@ -2,6 +2,7 @@
 const facturaNueva = {
   clienteNombre: "trucho S.A.",
   clienteCodigo: "00001",
+  fechaFactura: "06092026",
   clienteSelectDireccion: "CUSTOM_NEW_ADDRESS",
   clienteDireccion: "Siempreviva 473, Springfield",
   articuloNombre: "Articulo Test marca Testor",

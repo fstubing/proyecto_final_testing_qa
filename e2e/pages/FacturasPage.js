@@ -16,6 +16,7 @@ class FacturasPage extends BasePage {
     this.btnBuscadorCliente = page.locator(
       "//button[@type='submit']//*[name()='svg']",
     );
+    this.inputFechaFactura = page.locator('[name="invoice_date"]');
     this.selectDireccionEntrega = page.locator(
       '[name="delivery_address_selector"]',
     );
@@ -110,14 +111,17 @@ class FacturasPage extends BasePage {
       this.inputDireccionEntrega,
       facturaData.clienteDireccion,
     );
+    await this.inputFechaFactura.pressSequentially(facturaData.fechaFactura);
     await this.fillField(this.inputVendedor, facturaData.idVendedor);
     await this.inputVendedor.press("Enter");
+    await this.msgVendedorOk.waitFor({ state: "visible" });
     await this.fillField(this.inputMoneda, facturaData.idMoneda);
     await this.inputMoneda.press("Enter");
+    await this.msgMonedaOk.waitFor({ state: "visible" });
     await this.clickElement(this.btnAgregarArticulo);
     await this.fillField(this.inputArticulo, facturaData.articuloSku);
     await this.inputArticulo.press("Enter");
-    //await this.buscarArticulo(facturaData.articuloNombre);
+    await this.msgArticuloOk.waitFor({ state: "visible" });
     await this.fillField(this.inputCantidad, facturaData.articuloCantidad);
     await this.fillField(this.inputObservaciones, facturaData.observaciones);
     await this.msgArticuloOk.waitFor({ state: "hidden" });
