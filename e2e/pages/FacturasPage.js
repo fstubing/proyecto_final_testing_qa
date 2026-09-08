@@ -42,9 +42,6 @@ class FacturasPage extends BasePage {
     this.btnBuscadorArticulo = page.locator(
       "//button[@type='submit']//*[name()='svg']",
     );
-    // this.btnBuscadorArticulo = this.modal.getByRole("button", {
-    //   type: "submit",
-    // });
     this.inputArticulo = page.locator('input[maxlength="14"]');
     this.inputCantidad = page.locator("//input[@name='quantity']");
     this.msgMonedaOk = page.getByText("'PESOS ARGENTINOS' seleccionado.");
@@ -74,7 +71,6 @@ class FacturasPage extends BasePage {
       .filter({ hasText: "Código Cliente" })
       .waitFor({ state: "visible" });
     await this.fillField(this.buscadorCliente, nombre);
-    //await this.buscadorArticulo.press("Enter");
     await this.clickElement(this.btnBuscadorCliente);
     await expect(
       this.page.locator("table tbody tr td").filter({ hasText: nombre }),

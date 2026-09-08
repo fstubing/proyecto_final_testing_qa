@@ -41,7 +41,6 @@ class CobrosPage extends BasePage {
       .waitFor({ state: "visible" });
     await this.fillField(this.inputBuscaCliente, nombre);
     await this.inputBuscaCliente.press("Enter");
-    //await this.clickElement(this.btnBuscadorCliente);
     await expect(
       this.page.locator("table tbody tr td").filter({ hasText: nombre }),
     ).toBeVisible();
@@ -73,7 +72,6 @@ class CobrosPage extends BasePage {
       .waitFor({ state: "visible" });
     await this.inputbuscadorCobros.fill(nombre);
     await this.inputbuscadorCobros.press("Enter");
-    //await this.clickElement(this.btnbuscadorCobros);
     await expect(this.msgNoResults).not.toBeVisible();
     await expect(
       this.page.locator("table tbody tr").filter({ hasText: nombre }),
