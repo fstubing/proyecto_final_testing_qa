@@ -8,7 +8,7 @@ module.exports = defineConfig({
     baseURL: process.env.BASE_URL || "http://localhost:3000",
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
-    video: "on",
+    video: "retain-on-failure",
     timezoneId: "America/Santiago",
   },
   projects: [
